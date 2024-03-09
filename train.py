@@ -75,8 +75,10 @@ if __name__ == "__main__":
     nbs = 64
     lr_limit_max = 1e-3 if optimizer_type in ["adam", "adam_w"] else 5e-2
     lr_limit_min = 3e-4 if optimizer_type in ["adam", "adam_w"] else 5e-4
-    init_lr_fit = min(max(batch_size / nbs * init_lr, lr_limit_min), lr_limit_max)
-    min_lr_fit = min(max(batch_size / nbs * init_lr * 0.01, lr_limit_min * 1e-2), lr_limit_max * 1e-2)
+    init_lr_fit = min(max(batch_size / nbs * init_lr,
+                          lr_limit_min), lr_limit_max)
+    min_lr_fit = min(max(batch_size / nbs * init_lr * 0.01,
+                         lr_limit_min * 1e-2), lr_limit_max * 1e-2)
     pg0, pg1, pg2 = [], [], []
     for k, v in model.named_modules():
         if hasattr(v, "bias") and isinstance(v.bias, nn.Parameter):
@@ -90,13 +92,16 @@ if __name__ == "__main__":
                  "sgd": optim.SGD(pg0, init_lr_fit, momentum=0.937, nesterov=True)}[optimizer_type]
     optimizer.add_param_group({"params": pg1, "weight_decay": weight_decay})
     optimizer.add_param_group({"params": pg2})
-    lr_scheduler_func = get_lr_scheduler(lr_decay_type, init_lr_fit, min_lr_fit, epoch)
+    lr_scheduler_func = get_lr_scheduler(
+        lr_decay_type, init_lr_fit, min_lr_fit, epoch)
     epoch_step = num_train // batch_size
     epoch_step_val = num_val // batch_size
     if epoch_step == 0 or epoch_step_val == 0:
         raise ValueError("dataset error")
-    train_dataset = YoloDataset(train_lines, num_classes, epoch, True, True, 0.5, 0.5, True, 0.7)
-    val_dataset = YoloDataset(val_lines, num_classes, epoch, False, False, 0, 0, False, 0)
+    train_dataset = YoloDataset(
+        train_lines, num_classes, epoch, True, True, 0.5, 0.5, True, 0.7)
+    val_dataset = YoloDataset(val_lines, num_classes,
+                              epoch, False, False, 0, 0, False, 0)
     gen = DataLoader(train_dataset, shuffle=True, batch_size=batch_size, num_workers=num_workers, pin_memory=True,
                      drop_last=True, collate_fn=yolo_dataset_collate, sampler=None)
     gen_val = DataLoader(val_dataset, shuffle=True, batch_size=batch_size, num_workers=num_workers, pin_memory=True,
@@ -105,11 +110,16 @@ if __name__ == "__main__":
         if e >= 50 and not unfreeze_flag and freeze_train:
             batch_size = 8
             nbs = 64
-            lr_limit_max = 1e-3 if optimizer_type in ["adam", "adam_w"] else 5e-2
-            lr_limit_min = 3e-4 if optimizer_type in ["adam", "adam_w"] else 5e-4
-            init_lr_fit = min(max(batch_size / nbs * init_lr, lr_limit_min), lr_limit_max)
-            min_lr_fit = min(max(batch_size / nbs * init_lr * 0.01, lr_limit_min * 1e-2), lr_limit_max * 1e-2)
-            lr_scheduler_func = get_lr_scheduler(lr_decay_type, init_lr_fit, min_lr_fit, epoch)
+            lr_limit_max = 1e-3 if optimizer_type in [
+                "adam", "adam_w"] else 5e-2
+            lr_limit_min = 3e-4 if optimizer_type in [
+                "adam", "adam_w"] else 5e-4
+            init_lr_fit = min(max(batch_size / nbs * init_lr,
+                                  lr_limit_min), lr_limit_max)
+            min_lr_fit = min(max(batch_size / nbs * init_lr *
+                                 0.01, lr_limit_min * 1e-2), lr_limit_max * 1e-2)
+            lr_scheduler_func = get_lr_scheduler(
+                lr_decay_type, init_lr_fit, min_lr_fit, epoch)
             for param in model.backbone.parameters():
                 param.requires_grad = True
             epoch_step = num_train // batch_size

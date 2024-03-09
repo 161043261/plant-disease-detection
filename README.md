@@ -13,7 +13,6 @@ python app.py
 ```
 
 ### PlantDoc
-
 ```text
 apple leaf
 apple rust leaf
@@ -42,4 +41,28 @@ tomato leaf mosaic virus
 tomato leaf yellow virus
 tomato mold leaf
 tomato septoria leaf spot
+```
+
+### Pascal VOC 2007
+```text
+aeroplane
+bicycle
+bird
+boat
+bottle
+bus
+car
+cat
+chair
+cow
+diningtable
+dog
+horse
+motorbike
+person
+pottedplant
+sheep
+sofa
+train
+tvmonitor
 ```
