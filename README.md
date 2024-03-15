@@ -3,7 +3,6 @@
 ```shell
 cd plant-disease-detection
 pip install -r requirements.txt
-pip install tensorboard python-multipart
 # pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
 ```
 
