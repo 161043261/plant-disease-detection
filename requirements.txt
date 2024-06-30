@@ -1,0 +1,17 @@
+numpy
+uvicorn
+Pillow
+fastapi
+matplotlib
+starlette
+thop
+torch
+torchaudio
+torchsummary
+torchvision
+tqdm
+opencv-python
+onnx
+tensorboard
+python-multipart
+
